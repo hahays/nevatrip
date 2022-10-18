@@ -8,18 +8,19 @@ const backValues = DATA.BtoA.map((value) => DateTime.fromISO(value));
 
 function TimeFromAtoB() {
   const [valueDirection, setValueDirection] = useState("");
-  const [valueTime, setValueTime] = useState();
-  const [valuteText, setvalueText] = useState();
-  const [backValueTime, setBackValueTime] = useState("");
+  const [valueTime, setValueTime] = useState("0");
+  const [ticketsCount, setTicketsCount] = useState("");
+  const [backValueTime, setBackValueTime] = useState(backValues[2]);
+  const [showMessage, setShowMessage] = useState(false);
 
   const routeOptions = [
-    { value: "Выберите маршрутt", text: "Выберите маршрут" },
+    { value: "Выберите маршрут", text: "Выберите маршрут" },
     { value: "из A в B", text: "из A в B" },
     { value: "из B в A", text: "из B в A" },
     { value: "из A в B и обратно в A", text: "из A в B и обратно в A" },
   ];
 
-  let timeValues = DATA[valueDirection] || DATA.AtoB;
+  let timeValues = DATA[valueDirection === "из B в A" && "BtoA"] || DATA.AtoB;
 
   timeValues = timeValues.map((value) => {
     return DateTime.fromISO(value);
@@ -27,17 +28,17 @@ function TimeFromAtoB() {
 
   let priceTicket;
 
-  let timeDestation;
+  let timeDestination;
+
+  const currentValueTime = timeValues[valueTime];
 
   if (valueDirection === "из A в B" || valueDirection === "из B в A") {
     priceTicket = 700;
-    timeDestation = 50;
+    timeDestination = 50;
   } else if (valueDirection === "из A в B и обратно в A") {
     priceTicket = 1200;
-    timeDestation = 50 * 2;
+    timeDestination = (+backValueTime - timeValues[valueTime].ts) / 60000 + 50;
   }
-  let date = DateTime.now().toFormat("t");
-  console.log(date);
 
   const options = routeOptions.map((routeOption) => {
     return (
@@ -49,19 +50,17 @@ function TimeFromAtoB() {
 
   const onValueTimeChange = (e) => {
     setValueTime(e.target.value);
-    console.log(e.target.value);
+    setShowMessage(false);
   };
 
   const valueChange = (e) => {
     setValueDirection(e.target.value);
-    console.log(e.target.value);
+    setShowMessage(false);
   };
 
   const checkTimeB = (e) => {
     setBackValueTime(e.target.value);
   };
-
-  const currentValueTime = timeValues[valueTime];
 
   const currentDestionation = (
     <div className="form-select-direction">
@@ -83,8 +82,12 @@ function TimeFromAtoB() {
       <select value={valueTime} onChange={onValueTimeChange}>
         {timeValues.map((dateTime, index) => {
           return (
-            <option value={index}>
-              {`${dateTime.toFormat("t")} (из А в B)`}
+            <option key={index} value={index}>
+              {`${dateTime.toFormat("t")} ${
+                valueDirection === "из A в B и обратно в A"
+                  ? "из А в B"
+                  : valueDirection
+              }`}
             </option>
           );
         })}
@@ -96,11 +99,10 @@ function TimeFromAtoB() {
     <div className="form-select-time">
       <label htmlFor="time">Выберите обратное время</label>
       <select value={backValueTime} onChange={checkTimeB}>
-        {backValues.map((dateTime) => {
+        {backValues.map((dateTime, index) => {
           const disabled = currentValueTime.plus({ minutes: 50 }) > dateTime;
-
           return (
-            <option value={dateTime} disabled={disabled}>
+            <option key={index} value={dateTime} disabled={disabled}>
               {`${dateTime.toFormat("t")} (из B в A)`}
             </option>
           );
@@ -109,19 +111,16 @@ function TimeFromAtoB() {
     </div>
   );
 
-  const showMessage = () => {
-    let elem = document.getElementById("num").value;
-    document.getElementById(
-      "ticket"
-    ).innerHTML = ` Вы выбрали ${elem} билета по маршруту ${valueDirection}
+  const message =
+    currentValueTime &&
+    ` Вы выбрали ${ticketsCount} билета по маршруту ${valueDirection}
     стоимостью ${
-      elem * priceTicket
-    }р. Это путешествие займет у вас ${timeDestation}  минут. Теплоход отправляется в ${currentValueTime.toFormat(
+      ticketsCount * priceTicket
+    }р. Это путешествие займет у вас ${timeDestination}  минут. Теплоход отправляется в ${currentValueTime.toFormat(
       "t"
     )}, а прибудет в ${currentValueTime.plus({ minutes: 50 }).toFormat("t")}.
-    
- `;
-  };
+
+  `;
 
   return (
     <div className="timeFrom">
@@ -135,9 +134,18 @@ function TimeFromAtoB() {
 
       <div className="form-ticket">
         <label for="num">Количество билетов</label>
-        <input id="num"></input>
-        <button onClick={showMessage}>Посчитать</button>
-        <p id="ticket"></p>
+        <input
+          id="num"
+          value={ticketsCount}
+          onChange={(e) => setTicketsCount(e.target.value)}
+        ></input>
+        <button
+          disabled={!valueTime || !valueDirection || !ticketsCount}
+          onClick={() => setShowMessage(true)}
+        >
+          Посчитать
+        </button>
+        {showMessage && <p>{message}</p>}
       </div>
     </div>
   );
