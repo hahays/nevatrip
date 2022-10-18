@@ -564,10 +564,29 @@
     top: 283px;
   }
 }
+@media only screen and (max-width: 414px) {
+  .container-left-side-bookmark-blue {
+    top: 221px;
+    width: 129px;
+  }
+
+  .container-left-side-bookmark-yellow {
+    top: 947px;
+    width: 129px;
+  }
+}
+
+@media only screen and (max-width: 412px) {
+  .container-left-side-bookmark-yellow {
+    top: 947px;
+    width: 129px;
+    font-size: 15px;
+  }
+}
 
 @media only screen and (max-width: 387px) {
   .container-left-side-bookmark-blue {
-    top: 283px;
+    top: 221px;
     width: 129px;
   }
   .container-left-side-bookmark-blue p {
