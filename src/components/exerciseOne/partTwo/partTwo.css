@@ -1,0 +1,47 @@
+.partTwo {
+  font-family: "Poppins ExtraBold";
+  display: flex;
+  justify-content: center;
+  margin: 107px 0 0px;
+}
+
+.partTwo-text {
+  display: grid;
+  text-align: inherit;
+
+  /* width: 684px; */
+  /* background-color: antiquewhite; */
+  font-size: 35px;
+}
+
+.partTwo-text h3 {
+  display: flex;
+  justify-content: center;
+}
+
+.partTwo-text ol {
+  display: block;
+  justify-content: center;
+  align-items: center;
+  text-align: initial;
+}
+
+.greenP {
+  color: rgb(49, 199, 49);
+  font-weight: bolder;
+}
+
+.redP {
+  color: rgb(223, 53, 30);
+  font-weight: bolder;
+}
+.yellowP {
+  color: rgb(226, 226, 44);
+  font-weight: bolder;
+}
+
+@media only screen and (max-width: 681px) {
+  .partTwo-text {
+    font-size: 20px;
+  }
+}

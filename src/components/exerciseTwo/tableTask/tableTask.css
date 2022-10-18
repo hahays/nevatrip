@@ -1,0 +1,27 @@
+.tableTask-description {
+  font-family: "Poppins ExtraBold";
+  font-size: 35px;
+}
+
+.tableTask-table {
+  overflow: scroll;
+}
+
+.tableTask-table img {
+  display: flex;
+  justify-content: center;
+}
+
+.tableTask-tabler img {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+}
+
+.pictures {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 35px;
+}

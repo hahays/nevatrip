@@ -1,0 +1,54 @@
+.timeFrom {
+  margin-top: 50px;
+  overflow-wrap: anywhere;
+  justify-content: center;
+  align-content: center;
+}
+
+.timeFrom h2 {
+  justify-content: center;
+  display: flex;
+}
+
+.form-select {
+  display: flex;
+  justify-content: space-evenly;
+  margin: 0 0 50px;
+}
+.price {
+  margin: 50px 0 0;
+}
+
+.form-select-direction {
+  display: grid;
+  justify-content: center;
+  align-items: center;
+}
+
+.form-select-time {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.form-select-time select {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.form-ticket {
+  margin: 0 0 50px;
+  display: flex;
+  justify-content: center;
+}
+
+.result {
+  display: flex;
+  justify-content: center;
+}
+
+@media only screen and (max-width: 470px) {
+  .form-select {
+    display: block;
+  }
+}
